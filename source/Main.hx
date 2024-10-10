@@ -29,54 +29,16 @@ class Main extends Sprite
 	{
 		super();
 
-		if (stage != null)
-		{
-			init();
-		}
-		else
-		{
-			addEventListener(Event.ADDED_TO_STAGE, init);
-		}
-	}
-
-	private function init(?E:Event):Void
-	{
-		if (hasEventListener(Event.ADDED_TO_STAGE))
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
-		}
-
-		setupGame();
-	}
-
-	private function setupGame():Void
-	{
-		var stageWidth:Int = Lib.current.stage.stageWidth;
-		var stageHeight:Int = Lib.current.stage.stageHeight;
-
-		if (zoom == -1)
-		{
-			var ratioX:Float = stageWidth / gameWidth;
-			var ratioY:Float = stageHeight / gameHeight;
-			zoom = Math.min(ratioX, ratioY);
-			gameWidth = Math.ceil(stageWidth / zoom);
-			gameHeight = Math.ceil(stageHeight / zoom);
-		}
-
 		Paths.getModFolders();
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen));
 
-		#if !mobile
 		fpsVar = new FPS(16, 8, 0xFFFFFF);
 		addChild(fpsVar);
-		if(fpsVar != null) {
+		if(fpsVar != null)
 			fpsVar.visible = ClientPrefs.showFPS;
-		}
-		#end
 
 		#if html5
-		FlxG.autoPause = false;
-		FlxG.mouse.visible = false;
+		FlxG.autoPause = FlxG.mouse.visible = false;
 		#end
 	}
 }
